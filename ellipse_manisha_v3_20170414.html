@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<!-- This is an html comment. -->
+<!-- Developed by Manisha and Paul, started March, 2017, at the University
+of Denver
+
+This version has html input for major and minor axis, and to chose the planet, and yes no button for showing the orbit or not, added by Manisha. -->
+
+    <head>
+        <meta charset="utf-8">
+	<title> Simulation of orbit of planets around the sun </title>
+    </head>
+    <body>
+    <body style="font-family:sans-serif;font-size:15px;width:600px;margin-left:auto;margin-right:auto;background-color:#c0c0c0;">
+         <h1 style="font-size:24px;text-aligh:center;color:#800000;">Orbits</h1>
+	 <div style="width:500px; margin-left:auto; margin-right:auto; position:relative;">
+
+	  <canvas id="theCanvas" width="500" height="500" style="position:relative;">
+              Canvas not supported; please update your browser.
+          </canvas>
+	 </div>
+
+         <p>
+
+
+
+<! -- Adding a checkbox for planets to allow user to chose the orbit of the planet: -->
+           <form> Chose the planet whose orbit you want simulate:<br>
+		 <input class="messageCheckbox" type="checkbox" name="Mercury" value="Mercury" id="mercury"> Mercury<br>
+		 <input class="messageCheckbox" type="checkbox" name="Venus" value="Venus" id="venus"> Venus <br> 
+		 <input class="messageCheckbox" type="checkbox" name="Earth" value="Earth" id="earth"> Earth<br>
+		 <input class="messageCheckbox" type="checkbox" name="Mars" value="Mars" id="mars"> Mars <br>   
+	    </form>
+
+
+ <script>
+        var speedReadout = document.getElementById("speedReadout");
+        var theCanvas = document.getElementById("theCanvas");
+	var theContext = theCanvas.getContext("2d");
+        var centerX = theCanvas.width/2
+	var centerY = theCanvas.height/2
+        var x = 300;
+        var y = 50;
+        var dt = 0;
+	var twopi = 2*Math.PI;
+	var dtheta=twopi/180;
+	var inputElements = document.getElementById('venus').checked;
+
+
+
+
+
+
+
+  function drawProjectile() {
+	theContext.beginPath();
+	theContext.arc(x, y, 5, 0, 2*Math.PI);
+	theContext.fillStyle = "blue";
+	theContext.fill();
+     }
+// Added a center point or the sun of the orbit --Manisha
+     function drawSun(){
+	     theContext.beginPath()
+             theContext.arc(centerX,centerY, 3, 0, 2*Math.PI);
+             theContext.fillStyle = "yellow";
+             theContext.fill();
+         }
+    
+     function moveProjectile() { 
+	     dtheta += 1;
+	     if (inputElements='Earth') {
+                 smin=200
+	         smax=150
+	     }
+	     if (inputElements='Mars'){
+		 smin=500
+	         smax=250
+	     }
+	     if(inputElements='Mercury'){
+		  smin=50
+	          smax=25
+	     }
+	     if(inputElements='Venus'){
+		   smin=75
+	           smax=50
+	      }
+		x = smin*Math.cos(twopi*dtheta/180) + centerX;
+	        y = smax*Math.sin(twopi*dtheta/180) + centerY;
+                theContext.clearRect(0,0, theCanvas.width, theCanvas.height);		
+	     drawProjectile();
+             drawSun(0,0);	 
+             window.setTimeout(moveProjectile, 1000/30);
+	 }
+
+
+
+     
+        moveProjectile();
+        
+      
+	</script>
+      
+	 </body>
+</html>
+
