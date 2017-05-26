@@ -63,7 +63,6 @@ function merFunction(){
 			}
 
 
-
                            }
 
 
@@ -95,9 +94,30 @@ function venFunction(){
                            }
 
 function earFunction(){
-	var ear_test
-	document.getElementById('p_ear_1').innerHTML='Earth Stub';
+        var ear_test;
+	ear_test = document.getElementById('Earth').value;
+        document.getElementById('test_3').innerHTML = ear_test;
+        
+	 if (ear_test == 0){
+	   document.getElementById('demo_6').innerHTML = 'Earth is ON';
+	   document.getElementById('Earth').value = 1;
+	   ear_test = 1;
+	   document.getElementById('demo_5').innerHTML = ear_test;
+	                   }
+
+			 
+
+	
+	 else if (ear_test == 1){
+	document.getElementById('demo_6').innerHTML = 'Earth is OFF';
+	document.getElementById('Earth').value = 0;
+        ear_test = 0;
+	document.getElementById('demo_5').innerHTML = ear_test;
 			}
+
+
+
+                           }
 
 
 function marFunction(){
