@@ -20,8 +20,6 @@
 <h2>My First Web Page</h2>
 <p>My First Paragraph.</p>
 
-<p id='test_1'></p>
-<p id='test_2'></p>
 
 <p id='demo_1'></p>
 
@@ -30,8 +28,12 @@
 <p id="demo_3"></p>
 <p id="demo_4"></p>
 
-<p id="p_ven_1"></p>
-<p id="p_ven_2"></p>
+<p id='demo_5'></p>
+<p id='demo_6'></p>
+
+<p id='demo_7'></p>
+<p id='demo_8'></p>
+
 
 <p id="p_ear_1"></p>
 <p id="p_ear_2"></p>
@@ -43,7 +45,6 @@
 function merFunction(){
         var mer_test;
 	mer_test = document.getElementById('Mercury').value;
-        document.getElementById('test_1').innerHTML = mer_test;
         
 	 if (mer_test == 0){
 	   document.getElementById('demo_2').innerHTML = 'Mercury is ON';
@@ -51,9 +52,7 @@ function merFunction(){
 	   mer_test = 1;
 	   document.getElementById('demo_1').innerHTML = mer_test;
 	                   }
-
 			 
-
 	
 	 else if (mer_test == 1){
 	document.getElementById('demo_2').innerHTML = 'Mercury is OFF';
@@ -61,16 +60,10 @@ function merFunction(){
         mer_test = 0;
 	document.getElementById('demo_1').innerHTML = mer_test;
 			}
-
-
                            }
-
-
-
 function venFunction(){
-        var ven_test;
+        var mer_test;
 	ven_test = document.getElementById('Venus').value;
-        document.getElementById('test_2').innerHTML = ven_test;
         
 	 if (ven_test == 0){
 	   document.getElementById('demo_4').innerHTML = 'Venus is ON';
@@ -78,9 +71,7 @@ function venFunction(){
 	   ven_test = 1;
 	   document.getElementById('demo_3').innerHTML = ven_test;
 	                   }
-
 			 
-
 	
 	 else if (ven_test == 1){
 	document.getElementById('demo_4').innerHTML = 'Venus is OFF';
@@ -88,15 +79,10 @@ function venFunction(){
         ven_test = 0;
 	document.getElementById('demo_3').innerHTML = ven_test;
 			}
-
-
-
                            }
-
 function earFunction(){
         var ear_test;
 	ear_test = document.getElementById('Earth').value;
-        document.getElementById('test_3').innerHTML = ear_test;
         
 	 if (ear_test == 0){
 	   document.getElementById('demo_6').innerHTML = 'Earth is ON';
@@ -104,9 +90,7 @@ function earFunction(){
 	   ear_test = 1;
 	   document.getElementById('demo_5').innerHTML = ear_test;
 	                   }
-
 			 
-
 	
 	 else if (ear_test == 1){
 	document.getElementById('demo_6').innerHTML = 'Earth is OFF';
@@ -114,19 +98,27 @@ function earFunction(){
         ear_test = 0;
 	document.getElementById('demo_5').innerHTML = ear_test;
 			}
-
-
-
                            }
-
-
 function marFunction(){
-	var mar_test
-	document.getElementById('p_mar_1').innerHTML='Mars STub';
+        var mar_test;
+	mar_test = document.getElementById('Mars').value;
+        
+	 if (mar_test == 0){
+	   document.getElementById('demo_8').innerHTML = 'Mars is ON';
+	   document.getElementById('Mars').value = 1;
+	   mar_test = 1;
+	   document.getElementById('demo_7').innerHTML = mar_test;
+	                   }
+			 
+	
+	 else if (mar_test == 1){
+	document.getElementById('demo_8').innerHTML = 'Mars is OFF';
+	document.getElementById('Mars').value = 0;
+        mar_test = 0;
+	document.getElementById('demo_7').innerHTML = mar_test;
 			}
-
+			  }
 </script>
 
 </body>
 </html> 
-
