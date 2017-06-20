@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<!-- This is a program to compute the eccentric anomaly from the mean anomaly
+    by solving Kepler's Equation.
+   The logic is extracted from a MATLAB program by Paul Hemenway written
+   for an Intro Astronomy Course in the DU Enrichment Program.  The routine
+   was written around 24 January 2016.
+   Started 20170618 by paul hemenway for the solar system project with Manisha
+-->
+<html>
+<body>
+
+  <form> 
+    Eccentricity: 
+    <input type="number" id="ecc" name="eccentricity" value="0"><br>
+	<br>
+    Mean anomaly:
+    <input type="number" id="meananom" name="mean_anomaly" value="0"><br>
+	<input type="checkbox" id="gobox" onclick="kepFunction()"> GO <br>
+  </form>
+<p> Separator
+<p>
+<p> Eccentricity:</p>
+<p id="ecc_place"></p><br>
+
+<p> Mean Anomaly (Radians):</p>
+<p id="meananom_place"></p><br>
+
+<p id="test_place_1"></p>
+<p id="test_place_2"></p>
+
+<p id="test_place_3"></p>
+<p id="test_place_4"></p>
+
+   <script>
+ 
+function kepFunction(){
+
+	var pii=Math.PI;
+	var twopi=2*pii;
+	var deg2rad=pii/180.;
+        var rad2deg=180/pii;
+	var m_fix;
+	var m_mod;
+	var eccanom_try;
+	var e0;
+	var icount;
+	var mtest;
+
+        var ecc = document.getElementById("ecc").value;
+	var meananom_rad = document.getElementById("meananom").value;
+	document.getElementById('ecc_place').innerHTML = ecc;
+	document.getElementById('meananom_place').innerHTML = meananom_rad;
+
+	m_fix = Math.floor(meananom_rad/twopi);
+	m_mod = meananom_rad - (m_fix*twopi);
+        eccanom_try = m_mod + 2e-8;
+    e0=eccanom_try;
+    icount=0;
+    mtest=eccanom_try-ecc*Math.sin(eccanom_try);
+
+ while (Math.abs(m_mod - mtest)>1.0e-14 ) {
+        icount++ ;
+        eccanom_try = e0 + ((m_mod - e0) + ecc*Math.sin(e0))/(1-ecc*Math.cos(e0));
+        e0=eccanom_try;
+        mtest=eccanom_try-ecc*Math.sin(eccanom_try);
+
+					}
+	document.getElementById('test_place_1').innerHTML = 'Icount:';
+        document.getElementById('test_place_2').innerHTML = icount;
+        document.getElementById('test_place_3').innerHTML = 'eccentric Anomaly (Radians):';
+	document.getElementById('test_place_4').innerHTML = e0;
+	
+
+			}
+
+
+   </script>
+
+
+</body>
+</html>
