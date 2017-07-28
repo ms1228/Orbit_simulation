@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<!-- This is an html comment. -->
+<!-- Developed by Manisha and Paul, started March, 2017, at the University
+of Denver
+
+This version has html input for major and minor axis, and to chose the planet, and yes no button for showing the orbit or not, added by Manisha. -->
+    <head>
+        <meta charset="utf-8">
+	<title> Simulation of orbit of planets around the sun </title>
+    </head>
+    <body>
+    <body style="font-family:sans-serif;font-size:15px;width:600px;margin-left:auto;margin-right:auto;background-color:#c0c0c0;">
+         <h1 style="font-size:24px;text-aligh:center;color:#800000;">Orbits</h1>
+	 <div style="width:500px; margin-left:auto; margin-right:auto; position:relative;">
+
+	  <canvas id="theCanvas" width="500" height="500" style="position:relative;">
+              Canvas not supported; please update your browser.
+          </canvas>
+	 </div>
+
+         <p>
+
+
+<! -- Adding a checkbox for planets to allow user to chose the orbit of the planet: -->
+           <form> Chose the planet whose orbit you want simulate:<br>
+		 <input  type="checkbox" name="Mercury" value=0 id="mercury" onclick="merFunction()"> Mercury<br>
+		 <input  type="checkbox" name="Venus" value=0 id="venus" onclick="venFunction()"> Venus <br> 
+		 <input  type="checkbox" name="Earth" value=0 id="earth" onclick="earFunction()"> Earth<br>
+		 <input  type="checkbox" name="Mars" value=0 id="mars" onclick="marFunction()"> Mars <br>   
+	    </form>
+	    <! -- Adding a checkbox for users to chose the orbit of the planet to be shown with its path or not: -->
+           <form> Do you want the path to be shown?:<br>
+		  <input  type="radio" name = "radio" value="1" id="yes" onclick="drawProjectileYes()" > Yes<br>
+		  <input  type="radio" name ="radio" value="0" id="no"onclick="drawProjectileNo()" > No <br>
+           </form>
+
+
+ <script>
+//        var speedReadout = document.getElementById("speedReadout");
+        var theCanvas = document.getElementById("theCanvas");
+	var theContext = theCanvas.getContext("2d");
+        var centerX = theCanvas.width/2
+	var centerY = theCanvas.height/2
+        var x = 300;
+        var y = 50;
+        var dt = 0;
+	var twopi = 2*Math.PI;
+	var dtheta=twopi/180;
+	var path_test;
+	var smin;
+	var smax;
+	var mer_test;
+	var ven_test;
+	var ear_test;
+	var mar_test;
+// Initialize the variables needed to plotthe orbitof planets
+        var big_G = 1;
+        var big_G_mks = 6.672590000000000e-11;
+        var a3 = [ ];
+	var ecc_plan = [0.20563000,   0.00674900,   0.01670050,   0.09336870,   0.04890600,   0.05415740,   0.05071280,   0.00764670];
+	var inc_deg_plan = [7.0040400000,   3.3944000000,   0.0020700000,   1.8483800000,   0.0000329240,   2.4877700000,   0.7723000000,   1.7723200000 ];
+	var inc_rad_plan = [0.1222435589,  0.0592434561,  0.0000361283,  0.0322603168,  0.0000005746,  0.0434197775,  0.0134791778,  0.0309328194 ];
+	var lan_deg_plan = [48.31080000,   76.63490000,  172.50000000,   49.50890000,  100.51290000,  113.57580000,   73.94280000,  131.82030000 ];
+	var lan_rad_plan = [0.8431825243,  1.3375313269,  3.0106929597,  0.8640933140,  1.7542810457,  1.9822716606,  1.2905453181,  2.3006982560 ];
+	var lonperi_deg_plan = [77.47930000,  131.75000000,  102.96440000,  336.12450000,  14.30480000,  93.47550000,  172.07460000,  75.77600000 ];
+	var lonperi_rad_plan = [1.3522688871,  2.2994712895,  1.7970677923,  5.8664792216,  0.2496658588,  1.6314552449,  3.0032683291,  1.3225406940 ];
+	var meanmotion_degperday_plan = [4.0923452054,  1.6021480215,  0.9856135614,  0.5239848561,  0.0831060783,  0.0334087680,  0.0117868925,  0.0060181975 ];
+	var meanmotion_radperday_plan = [0.0714248980,  0.0279627581,  0.0172022018,  0.0091452610,  0.0014504747,  0.0005830930,  0.0002057201,  0.0001050374 ];
+	var meanlon_2457360p5_deg_plan = [291.24990000,  139.16887000,   72.27412000,  162.96067000,  157.58966000,  244.49442000,   21.55796000,  339.62720000 ];
+	var meanlon_2457360p5_rad_plan = [5.083269701104,  2.428954997780,  1.261421357981,  2.844200242756,  2.750458434098,  4.267232631754,  0.376257382013,  5.927612869329 ];
+	var recipricol_solar_mass_fraction_plan = [6023600.000000,   408523.719000,   328900.559600,  3098703.590000,     1047.348644,     3497.901800,    22902.980000,    19412.260000 ];
+	var semimaj_au_plan = [0.38709830,  0.72332700,  0.99999710,  1.52378480,  5.20218400,  9.54854400, 19.12242000, 29.93408000];
+// Set up the time steps and num of those steps to take. t is the array of times to plot
+        var time_step = 30
+	var num_time_steps = 367
+	var t = [t0,t0+30, t0+60, t0+90, t0+120, t0+150, t0+180, t0+210, t0+230, t0+260, t0+290, t0+320, t0+350]
+
+// Calculate the mean anomaly at time t which is given by mean_motion*(t-t0)+ mean_longitude(t0)-long_perihelion
+
+        var num_times = t.length; 
+        var num_planets = 8;
+        var t_day_matrix = t-t0;
+        var angperi_rad_matrix = lonperi_rad[3] - lan_rad[3];
+        var mean_anom_rad_matrix = mean_motion_radperday[3]*t_day_matrix+meanlon_2457360p5_rad[3]-lonperi_rad[3];
+
+
+
+
+     function kepFunction(){
+	      var pii=Math.PI;
+	      var twopi=2*pii;
+	      var deg2rad=pii/180.;
+	      var rad2deg=180/pii;
+	      var m_fix;
+	      var m_mod;
+	      var eccanom_try;
+	      var e0;
+	      var icount;
+	      var mtest;
+//              var ecc = document.getElementById("ecc").value;
+//	      var meananom_rad = document.getElementById("meananom").value;
+//	                        document.getElementById('ecc_place').innerHTML = ecc;
+//				document.getElementById('meananom_place').innerHTML = meananom_rad;
+        m_fix = Math.floor(mean_anom_rad_matrix/twopi);
+	m_mod = mean_anom_rad_matrix - (m_fix*twopi);
+	eccanom_try = m_mod + 2e-8;
+	e0=eccanom_try;
+	icount=0;
+	mtest=eccanom_try-ecc*Math.sin(eccanom_try);
+        while (Math.abs(m_mod - mtest)>1.0e-14 ) {
+               icount++ ;
+               eccanom_try = e0 + ((m_mod - e0) + ecc*Math.sin(e0))/(1-ecc*Math.cos(e0));
+               e0=eccanom_try;
+               mtest=eccanom_try-ecc*Math.sin(eccanom_try);
+ 					}
+
+     }
+
+for (i = 0; i < num_times; i++){
+//	for (j = 0; j< num_planets){
+		ecc_anom_rad_matrix = kepFunction(ecc_plan[3],mean_anom_rad_matrix);
+//	}
+}
+
+
+  function drawProjectileYes() {
+           path_test = document.getElementById('yes').value;
+
+	   drawProjectile()
+                    }
+
+  function drawProjectileNo() {
+           path_test = document.getElementById('no').value;
+
+	   drawProjectile()
+                     }
+
+  function drawProjectile() {
+
+    if (path_test == 0){
+        theContext.clearRect(0,0, theCanvas.width, theCanvas.height); 
+	theContext.beginPath();
+	theContext.arc(x, y, 1.5, 0, 2*Math.PI);
+        theContext.fillStyle = "blue";
+        theContext.fill();
+	}
+	else if (path_test == 1){
+        theContext.beginPath()
+	theContext.arc(x, y, 1.5, 0, 2*Math.PI);
+	theContext.fillStyle = "blue";
+	theContext.fill();
+	}
+    }
+// Added a center point or the sun of the orbit --Manisha
+     function drawSun(){
+	     theContext.beginPath()
+             foci=smax^2-smin^2
+             theContext.arc(centerX+foci,centerY, 5, 0, 2*Math.PI);
+             theContext.fillStyle = "yellow";
+             theContext.fill();
+         }
+     function merFunction(){
+	      mer_test = document.getElementById('mercury').value;
+	      if (mer_test == 0){
+		document.getElementById('mercury').value=1;
+		mer_test = 1;
+	      }
+	      else if (mer_test == 1){
+		      document.getElementById('mercury').value=0;
+		      mer_test = 0;
+	      }
+	      moveProjectile();
+              }
+     function venFunction(){
+              ven_test = document.getElementById('venus').value;
+	        if (ven_test == 0){
+	            document.getElementById('venus').value=1;
+		    ven_test = 1;
+		}
+		else if (ven_test == 1){
+             		document.getElementById('venus').value=0;
+			ven_test = 0;
+		}
+
+              moveProjectile();
+              }
+     function earFunction(){
+	     ear_test = document.getElementById('earth').value;
+	     if (ear_test == 0){
+        	     document.getElementById('earth').value=1;
+		     ear_test = 1;
+	     }
+	     else if (ear_test == 1){
+		     document.getElementById('earth').value=0;
+		     ear_test = 0;
+	     }
+
+	     moveProjectile();
+             }
+     function marFunction(){
+	     mar_test = document.getElementById('mars').value;
+	       if (mar_test == 0){
+		       document.getElementById('mars').value=1;
+		       mar_test = 1;
+	       }
+	       else if (mar_test == 1){
+		       document.getElementById('mars').value=0;
+		       mar_test = 0;
+	       }
+
+	     moveProjectile();
+              }
+
+
+
+
+     function moveProjectile() { 
+	     if (mer_test == 1 ){
+
+
+
+	     }
+
+	     else if (ven_test == 1){
+
+
+
+	     }
+	     else if (ear_test == 1){
+
+
+
+
+
+
+
+
+
+	     } 
+	     else if (mar_test == 1){
+
+
+
+	     }
+	     
+
+
+
+	     drawProjectile();
+             drawSun(0,0);	 
+             window.setTimeout(moveProjectile, 1000/30);
+	 }
+
+
+
+     
+        moveProjectile();
+        
+      
+	</script>
+      
+	 </body>
+</html>
+
