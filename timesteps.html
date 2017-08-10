@@ -10,16 +10,19 @@
 
 
 	   <form action="/action_page.php">Time step in days (between 1 and 30):
-              <input type="number" id = "sliderdays"  name="quantity" min="1" max="30">
-           </form>  
+		   <input type="number" id = "sliderdays"  name="quantity" min="1" max="30"><br>
+	       <!input type="reset" value = "Reset">
+           <!/form>  
 
-	    <form action="/action_page.php">Number of days (between 30 and 750):
+	    <!form action="/action_page.php">Number of days (between 30 and 750):
 		    <input type="number" id = "slidernum"  name="quantity" min="30" max="750">
+		     <input type="reset" value = "Reset">
 	    </form>
 
             <form> Do you want it to calculate<br>
 		    <input  type="radio" name = "radio" value="0" id="GO" onclick="dtValues()" > GO<br>
 		    <input  type="radio" name ="radio" value="0" id="Clear" onclick='dtValuesno()'> Clear <br>
+		    <input type="reset" value = "Reset">
 	    </form>
 
 
@@ -47,13 +50,9 @@
 
 
      function dtValuesno() { 
-	     time_steps  = Number(slider_days.value);
-	     num_days = Number(slider_num.value);
-	     dt = num_days/time_steps;
-	     document.getElementById('test_1').innerHTML = time_steps;
-	     //              document.getElementById('test_2').innerHTML = num_days;
-									                  
-									       }
+              ('#sliderdays').slider("value",
+			     ("#sliderdays").slider("option","min"));								                  
+     }
 
 
 
