@@ -1,0 +1,59 @@
+<html>
+
+<p> This routine attempts the construction of a pseudo two dimensional
+array, test_array, that consists of consecutive integers, 
+by repeated use of a single linear array of ones.</p>  
+
+<p> This prints the value of the 'one' vector (a1):</p>
+
+<p id="arraydemo">array demo</p><br>
+
+<p> Now print the values of the complete two dimensional array test_array = [a1,a1,a1]:</p>
+
+<p id="arraydemo2">array demo 2</p><br>
+
+<p> Print each "row array" separately: test_array[0],test_array[1],test_array[2]: </p>
+
+<p id="array row 1">array row 1</p>
+<p id="array row 2">array row 2</p>
+<p id="array row 3">array row 3</p>
+
+<p> Make a new array btest_array=test_array and print the same for btest_array:</p>
+
+<p id="bdem">b complete demo</p>
+
+<p id="bdem1"> b row 1</p>
+<p id="bdem2"> b row 2</p>
+<p id="bdem3"> b row 3</p>
+
+<script>
+
+var a1=[1,2,3,4,5]; 
+var a2=[6,7,8,9,10];
+var a3=[11,12,13,14,15];
+var test_array;
+
+
+document.getElementById('arraydemo').innerHTML = a1;
+
+test_array=[a1,a2,a3];
+
+document.getElementById('arraydemo2').innerHTML = test_array;
+
+document.getElementById('array row 1').innerHTML = test_array[0];
+document.getElementById('array row 2').innerHTML = test_array[1];
+document.getElementById('array row 3').innerHTML = test_array[2];
+
+var btest_array=test_array;
+
+document.getElementById('bdem').innerHTML = btest_array;
+
+document.getElementById('bdem1').innerHTML = btest_array[0];
+document.getElementById('bdem2').innerHTML = btest_array[1];
+document.getElementById('bdem3').innerHTML = btest_array[2];
+
+
+
+</script>
+
+</html>
