@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<!-- This is an html comment. -->
+<!-- Developed by Manisha and Paul, started March, 2017, at the University
+of Denver
+
+This version has html input for major and minor axis, and to chose the planet, and yes no button for showing the orbit or not, added by Manisha. -->
+
+    <head>
+        <meta charset="utf-8">
+	<title> Simulation of orbit of planets around the sun </title>
+    </head>
+    <body>
+    <body style="font-family:sans-serif;font-size:15px;width:600px;margin-left:auto;margin-right:auto;background-color:#c0c0c0;">
+         <h1 style="font-size:24px;text-aligh:center;color:#800000;">Orbits</h1>
+	 <div style="width:500px; margin-left:auto; margin-right:auto; position:relative;">
+
+	  <canvas id="theCanvas" width="500" height="500" style="position:relative;">
+              Canvas not supported; please update your browser.
+          </canvas>
+	 </div>
+         <p>Simulation</p>
+	 <p id="test_place_1"></p>
+	 <p id="test_place_2"></p>
+
+	 <p id="test_place_3"></p>
+	 <p id="test_place_4"></p>
+
+
+ <script>
+//        var speedReadout = document.getElementById("speedReadout");
+        var theCanvas = document.getElementById("theCanvas");
+	var theContext = theCanvas.getContext("2d");
+        var centerX = theCanvas.width/2;
+	var centerY = theCanvas.height/2;
+        var x = 300;
+        var y = 50;
+        var dt = 0;
+	var twopi = 2*Math.PI;
+	var dtheta=twopi/180;
+	var big_G = 1;
+	var big_G_mks = 6.672590000e-11;
+	var a3 = [];
+	var ecc_plan = 0.01670050;
+	var inc_deg_plan = 0.0020700000;
+	var inc_rad_plan = 0.0000361283
+	var lan_deg_plan = 172.50000000;
+	var lan_rad_plan = 3.0106929597;
+	var lonperi_deg_plan = 102.96440000;
+	var lonperi_rad_plan = 1.7970677923;
+	var meanmotion_degperday_plan =  0.9856135614;
+	 var meanmotion_radperday_plan = 0.0172022018;
+	 var meanlon_2457360p5_deg_plan =72.27412000;
+	 var meanlon_2457360p5_rad_plan = 1.26142135;
+	 var recipricol_solar_mass_fraction_plan =328900.559600;
+	 var semimaj_au_plan = 0.99999710;
+	 var time_step = 30;
+         var num_time_steps = 367;
+        var t = [t0,t0+30, t0+60, t0+90, t0+120, t0+150, t0+180, t0+210, t0+230, t0+260, t0+290, t0+320, t0+350];
+	document.getElementById('test_place_1').innerHTML = time_step;
+
+// Calculate the mean anomaly at time t which is given by mean_motion*(t-t0)+ mean_longitude(t0)-long_perihelion
+       var num_times = t.length; 
+       var num_planets = 8;
+       var t_day_matrix = t-t0;
+       var angperi_rad_matrix = lonperi_rad - lan_rad;
+       var mean_anom_rad_matrix = mean_motion_radperday*t_day_matrix+meanlon_2457360p5_rad-lonperi_rad;
+//        document.getElementById('test_place_1').innerHTML = mean_anom_rad_matrix;
+
+
+
+  for (i = 0; i < num_times; i++){
+	  ecc_anom_rad_matrix = kepFunction(ecc_plan,mean_anom_rad_matrix);
+  }
+
+function kepFunction(){
+       var deg2rad=pii/180.;
+       var rad2deg=180/pii;
+       var m_fix;
+       var m_mod;
+       var eccanom_try;
+       var e0;
+       var icount;
+       var mtest;
+       var ecc = ecc_plan;
+       var meananom_rad = mean_anom_rad_matrix;
+        m_fix = Math.floor(meananom_rad/twopi);
+	m_mod = meananom_rad - (m_fix*twopi);
+	eccanom_try = m_mod + 2e-8;
+        e0=eccanom_try;
+	icount=0;
+	mtest=eccanom_try-ecc*Math.sin(eccanom_try);
+        while (Math.abs(m_mod - mtest)>1.0e-14 ) {
+		icount++ ;
+		eccanom_try = e0 + ((m_mod - e0) + ecc*Math.sin(e0))/(1-ecc*Math.cos(e0));
+		e0=eccanom_try;
+		mtest=eccanom_try-ecc*Math.sin(eccanom_try);		
+//		document.getElementById('test_place_1').innerHTML = 'Icount:';
+//	        document.getElementById('test_place_2').innerHTML = icount;
+//                document.getElementById('test_place_3').innerHTML = 'eccentric Anomaly (Radians):';
+//	        document.getElementById('test_place_4').innerHTML = e0;
+
+	}
+          }
+
+       r_matrix = semimaj_au_plan* ecc*cos(ecc_anom_rad_matrix);
+       true_anom_rad_matrix = 2*atan(sqrt((1+ecc)/(1-ecc))*tan(ecc_anom_rad_matrix/2));
+
+       cosvom_matrix = cos(true_anom_rad_matrix+lan_rad_plan);
+       sinvom_matrix = sin(true_anom_rad_matrix+lan_rad_plan);
+       coslan_matrix = cos(lan_rad_plan);
+       sinlan_matrix = sin(lan_rad_plan);
+       cosi_matrix = cos(inc_rad_plan);
+       sini_matrix = sin(inc_rad_plan);
+       
+       xi_matrix = r_matrix*(cosvom_matrix*coslan_matrix-sinvom_matrix*sinlan_matrix*cosi_matrix);
+       eta_matrix = r_matrix*(cosvom_matrix*sinlan_matrix+sinvom_matrix*coslan_matrix*cosi_matrix);
+       zeta_matrix = r_matrix*(sinvom_matrix*sini_matrix);
+
+
+  function drawProjectile() {
+	theContext.beginPath();
+	theContext.arc(x, y, 5, 0, 2*Math.PI);
+	theContext.fillStyle = "blue";
+	theContext.fill();
+     }
+// Added a center point or the sun of the orbit --Manisha
+     function drawSun(){
+	     theContext.beginPath()
+             theContext.arc(centerX,centerY, 3, 0, 2*Math.PI);
+             theContext.fillStyle = "yellow";
+             theContext.fill();
+         }
+    
+     function moveProjectile() { 
+	     x = semimaj_au_plan* ecc*cos(ecc_anom_rad_matrix);
+      	     true_anom_rad_matrix = 2*atan(sqrt((1+ecc)/(1-ecc))*tan(ecc_anom_rad_matrix/2));
+	     cosvom_matrix = cos(true_anom_rad_matrix+lan_rad_plan);
+	     sinvom_matrix = sin(true_anom_rad_matrix+lan_rad_plan);
+	     coslan_matrix = cos(lan_rad_plan);
+	     sinlan_matrix = sin(lan_rad_plan);
+	     cosi_matrix = cos(inc_rad_plan);
+	     sini_matrix = sin(inc_rad_plan);
+	     xi_matrix = r_matrix*(cosvom_matrix*coslan_matrix-sinvom_matrix*sinlan_matrix*cosi_matrix);
+	     eta_matrix = r_matrix*(cosvom_matrix*sinlan_matrix+sinvom_matrix*coslan_matrix*cosi_matrix);
+	     zeta_matrix = r_matrix*(sinvom_matrix*sini_matrix);
+             x = xi_matrix;
+	     y = eta_matrix;
+             dtheta+=1;
+
+
+
+             theContext.clearRect(0,0, theCanvas.width, theCanvas.height); 
+	     drawProjectile();
+             drawSun(0,0);	 
+             window.setTimeout(moveProjectile, 1000/30);
+	 }
+
+
+
+     
+        moveProjectile();
+        
+      
+	</script>
+      
+	 </body>
+</html>
+

@@ -217,8 +217,10 @@ for (i = 0; i < num_times; i++){
 
 
      function moveProjectile() { 
+	     dtheta =+ 1;
 	     if (mer_test == 1 ){
-
+             smin=200
+             smax=150
 
 
 	     }
@@ -244,12 +246,12 @@ for (i = 0; i < num_times; i++){
 
 
 	     }
-	     
+             x = smin*Math.cos(twopi*dtheta/180) + centerX;
+             y = smax*Math.sin(twopi*dtheta/180) + centerY;
+            theContext.clearRect(0,0, theCanvas.width, theCanvas.height);           
+            drawProjectile();
+           drawSun(0,0); 		
 
-
-
-	     drawProjectile();
-             drawSun(0,0);	 
              window.setTimeout(moveProjectile, 1000/30);
 	 }
 
