@@ -83,11 +83,6 @@
         
 	</form>
 
-<!--    <form> <input type="radio" onclick="makeElementarrays()"
- 		name="go_makearrays" value="go"> Make Arrays <br>
-
- 	</form>
--->
 
 <p> Time Step as read:</p>
 <p id="time_step_read">Time-step as read </p>
@@ -102,6 +97,11 @@
 
 <p id='planet_flag_test'>Planet Flag Test</p>
 <p id='planet_flag_test2'>Planet Flag Test2</p>
+
+<p id='planet_generic_display'>Generic Display 1</p>
+
+<p> The Selected Planets are, in order:</p>
+<p id='planet_generic_display2'>Generic Display 2</p>
 
 
 <script>
@@ -389,15 +389,28 @@ function computeTimestep(){
 			   
 	document.getElementById('num_steps_display').innerHTML = num_steps;
 	document.getElementById('planet_flag_test2').innerHTML = plan_flag;
+
+        setupPlanetcounter();
+
+        makeElementarrays();
 			   }
 
-// function makeElementarrays(){
-// 	
-//       document.getElementByID('planet_flag_display').innerHTML = 1;
+ function setupPlanetcounter() {
+	var j = 0
+         for(var i = 0; i<plan_flag.length; i++){
+		if (plan_flag[i] == 1) { plan_counter[j] = i+1; j=j+1;
+					}
 
-//			   }
+						}
+				}
 
-// document.getElementById('planet_flag_test2').innerHTML = plan_flag;
+ function makeElementarrays(){
+ 	
+       document.getElementById('planet_generic_display').innerHTML = "In makeElementarrays";
+	document.getElementById('planet_generic_display2').innerHTML = plan_counter;
+
+			   }
+
 
 </script>
 
