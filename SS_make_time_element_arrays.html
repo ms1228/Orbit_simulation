@@ -103,9 +103,11 @@
 <p> The Selected Planets are, in order:</p>
 <p id='planet_generic_display2'>Generic Display 2</p>
 
+<p> The Time Step Vector is:</p>
+<p id='time_step_vector_display'>The Time Step Vector</p>
+
 
 <script>
-
 var plan_id = [1,2,3,4,5,6,7,8];
 
 // plan_flag is 1 if the planet is included, 0 if excluded in this run.
@@ -114,57 +116,35 @@ var plan_flag = [0,0,0,0,0,0,0,0];
 
 // plan_counter is the planet number in each spot of the included planets:
 // E.g.:  [2,3,7,0,0,0,0,0] means that Venus, Earth, and Uranus are included.
-var plan_counter = [0,0,0,0,0,0,0,0]
+var plan_counter = [0,0,0,0,0,0,0,0];
 
+// dt_vector is a vector of delta times from dt = 0
+// E.g.:  If the time interval is 5 days and there are 4 intervals or 5 times total, dt_vector = [0,5,10,15,20]
+var dt_vector = [0,0];
 var big_G = 1;
-
 var big_G_mks = 6.672590000000000e-11;
-
 var a3 = [ ];
-
 var ecc_plan = [0.20563000,   0.00674900,   0.01670050,   0.09336870,   0.04890600,   0.05415740,   0.05071280,   0.00764670];
-
 var inc_deg_plan = [7.0040400000,   3.3944000000,   0.0020700000,   1.8483800000,   0.0000329240,   2.4877700000,   0.7723000000,   1.7723200000 ];
-
 var inc_rad_plan = [0.1222435589,  0.0592434561,  0.0000361283,  0.0322603168,  0.0000005746,  0.0434197775,  0.0134791778,  0.0309328194 ];
-
 var lan_deg_plan = [48.31080000,   76.63490000,  172.50000000,   49.50890000,  100.51290000,  113.57580000,   73.94280000,  131.82030000 ];
-
 var lan_rad_plan = [0.8431825243,  1.3375313269,  3.0106929597,  0.8640933140,  1.7542810457,  1.9822716606,  1.2905453181,  2.3006982560 ];
-
 var lonperi_deg_plan = [77.47930000,  131.75000000,  102.96440000,  336.12450000,  14.30480000,  93.47550000,  172.07460000,  75.77600000 ];
-
 var lonperi_rad_plan = [1.3522688871,  2.2994712895,  1.7970677923,  5.8664792216,  0.2496658588,  1.6314552449,  3.0032683291,  1.3225406940 ];
-
 var meanmotion_degperday_plan = [4.0923452054,  1.6021480215,  0.9856135614,  0.5239848561,  0.0831060783,  0.0334087680,  0.0117868925,  0.0060181975 ];
-
 var meanmotion_radperday_plan = [0.0714248980,  0.0279627581,  0.0172022018,  0.0091452610,  0.0014504747,  0.0005830930,  0.0002057201,  0.0001050374 ];
-
 var meanlon_2457360p5_deg_plan = [291.24990000,  139.16887000,   72.27412000,  162.96067000,  157.58966000,  244.49442000,   21.55796000,  339.62720000 ];
-
 var meanlon_2457360p5_rad_plan = [5.083269701104,  2.428954997780,  1.261421357981,  2.844200242756,  2.750458434098,  4.267232631754,  0.376257382013,  5.927612869329 ];
-
 var recipricol_solar_mass_fraction_plan = [6023600.000000,   408523.719000,   328900.559600,  3098703.590000,     1047.348644,     3497.901800,    22902.980000,    19412.260000 ];
-
 var semimaj_au_plan = [0.38709830,  0.72332700,  0.99999710,  1.52378480,  5.20218400,  9.54854400, 19.12242000, 29.93408000];
-
 var mer_str='Mercury is ON, ecc=' + ecc_plan[0] + ',  a=' + semimaj_au_plan[0] + 'AU,  i=' + inc_deg_plan[0] + 'deg, lan=' + lan_deg_plan[0] + 'deg, lon_peri=' + lonperi_deg_plan[0] + 'deg, mean lon 2016.0=' + meanlon_2457360p5_deg_plan[0] + 'deg' ;
-
 var ven_str='Venus is ON, ecc=' + ecc_plan[1] + ',  a=' + semimaj_au_plan[1] + 'AU,  i=' + inc_deg_plan[1] + 'deg, lan=' + lan_deg_plan[1] + 'deg, lon_peri=' + lonperi_deg_plan[1] + 'deg, mean lon 2016.0=' + meanlon_2457360p5_deg_plan[1] + 'deg' ;
-
 var ear_str='Earth is ON, ecc=' + ecc_plan[2] + ',  a=' + semimaj_au_plan[2] + 'AU,  i=' + inc_deg_plan[2] + 'deg, lan=' + lan_deg_plan[2] + 'deg, lon_peri=' + lonperi_deg_plan[2] + 'deg, mean lon 2016.0=' + meanlon_2457360p5_deg_plan[2] + 'deg' ;
-
 var mar_str='Mars is ON, ecc=' + ecc_plan[3] + ',  a=' + semimaj_au_plan[3] + 'AU,  i=' + inc_deg_plan[3] + 'deg, lan=' + lan_deg_plan[3] + 'deg, lon_peri=' + lonperi_deg_plan[3] + 'deg, mean lon 2016.0=' + meanlon_2457360p5_deg_plan[3] + 'deg' ;
-
 var jup_str='Jupiter is ON, ecc=' + ecc_plan[4] + ',  a=' + semimaj_au_plan[4] + 'AU,  i=' + inc_deg_plan[4] + 'deg, lan=' + lan_deg_plan[4] + 'deg, lon_peri=' + lonperi_deg_plan[4] + 'deg, mean lon 2016.0=' + meanlon_2457360p5_deg_plan[4] + 'deg' ;
-
 var sat_str='Saturn is ON, ecc=' + ecc_plan[5] + ',  a=' + semimaj_au_plan[5] + 'AU,  i=' + inc_deg_plan[5] + 'deg, lan=' + lan_deg_plan[5] + 'deg, lon_peri=' + lonperi_deg_plan[5] + 'deg, mean lon 2016.0=' + meanlon_2457360p5_deg_plan[5] + 'deg' ;
-
 var ura_str='Uranus is ON, ecc=' + ecc_plan[6] + ',  a=' + semimaj_au_plan[6] + 'AU,  i=' + inc_deg_plan[6] + 'deg, lan=' + lan_deg_plan[6] + 'deg, lon_peri=' + lonperi_deg_plan[6] + 'deg, mean lon 2016.0=' + meanlon_2457360p5_deg_plan[6] + 'deg' ;
-
 var nep_str='Neptune is ON, ecc=' + ecc_plan[7] + ',  a=' + semimaj_au_plan[7] + 'AU,  i=' + inc_deg_plan[7] + 'deg, lan=' + lan_deg_plan[7] + 'deg, lon_peri=' + lonperi_deg_plan[7] + 'deg, mean lon 2016.0=' + meanlon_2457360p5_deg_plan[7] + 'deg' ;
-
-
 document.getElementById('demo_2').innerHTML = 'Mercury is Off';
 document.getElementById('demo_4').innerHTML = 'Venus is Off';
 document.getElementById('demo_6').innerHTML = 'Earth is Off';
@@ -272,7 +252,6 @@ function marFunction(){
 //	document.getElementById('demo_7').innerHTML = mar_test;
 			}
 			  }
-
 function jupFunction(){
         var jup_test;
 	jup_test = document.getElementById('Jupiter').value;
@@ -296,7 +275,6 @@ function jupFunction(){
 //	document.getElementById('demo_9').innerHTML = jup_test;
 			}
 			  }
-
 function satFunction(){
         var sat_test;
 	sat_test = document.getElementById('Saturn').value;
@@ -320,7 +298,6 @@ function satFunction(){
 //	document.getElementById('demo_11').innerHTML = sat_test;
 			}
 			  }
-
 function uraFunction(){
         var ura_test;
 	ura_test = document.getElementById('Uranus').value;
@@ -344,7 +321,6 @@ function uraFunction(){
 //	document.getElementById('demo_13').innerHTML = ura_test;
 			}
 			  }
-
 function nepFunction(){
         var nep_test;
 	nep_test = document.getElementById('Neptune').value;
@@ -368,14 +344,9 @@ function nepFunction(){
 //	document.getElementById('demo_15').innerHTML = nep_test;
 			}
 			  }
-
-
-
 var time_step = document.getElementById("time_step");
 var dt = Number(time_step.value);
-
 document.getElementById('time_step_read').innerHTML = dt;
-
 function computeTimestep(){
 	var time_step =  document.getElementById("time_step");
 	var num_days =   document.getElementById("num_days");
@@ -383,35 +354,37 @@ function computeTimestep(){
 	var nd = Number(num_days.value);
         var ns = nd/dt;
 	var num_steps=Math.floor(ns);
-
+	var jj = 0;
 	document.getElementById('time_step_read').innerHTML = dt;
         document.getElementById('num_days_read').innerHTML = nd;
 			   
 	document.getElementById('num_steps_display').innerHTML = num_steps;
 	document.getElementById('planet_flag_test2').innerHTML = plan_flag;
 
-        setupPlanetcounter();
+// ---------- new add:  -------------
+		dt_vector[0] = 0;
+		for (var jj = 0; jj<=num_steps; jj++) {
+			dt_vector[jj] = jj*dt;
+						      }
+// --------  end new add -------------
 
+	document.getElementById('time_step_vector_display').innerHTML = dt_vector;
+        setupPlanetcounter();
         makeElementarrays();
 			   }
-
  function setupPlanetcounter() {
 	var j = 0
          for(var i = 0; i<plan_flag.length; i++){
 		if (plan_flag[i] == 1) { plan_counter[j] = i+1; j=j+1;
 					}
-
 						}
+	plan_counter.length = j;
 				}
-
  function makeElementarrays(){
  	
        document.getElementById('planet_generic_display').innerHTML = "In makeElementarrays";
 	document.getElementById('planet_generic_display2').innerHTML = plan_counter;
-
 			   }
-
-
 </script>
 
 </body>
