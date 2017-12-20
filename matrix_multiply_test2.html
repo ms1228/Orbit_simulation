@@ -1,0 +1,57 @@
+<html>
+
+<head>
+<p> This is the Header.</p>
+
+<p> In Function:</p>
+<p id='function_called'>In Function Name</p>
+<p id='generic_print_place1'>Generic Print Place 1</p>
+<p id='generic_print_place2'>Generic Print Place 2</p>
+
+<button type = 'button' onclick='runIt()'> Go </button>
+
+<p> This is the Body.</p>
+<p> Matrix A goes here:</p>
+<p id='matrix_A_place'> Matrix A </p>
+<p> Number of Columns of A:</p>
+<p id='matrix_num_col_A'>Number of Columns of A goes here</p>
+<p> Number of rows of A:</p>
+<p id='matrix_num_rows_A'>Number of Rows of A goes here</p>
+<p> </p>
+<p> Matrix B goes here:</p>
+<p id='matrix_B_place'> Matrix B </p>
+
+
+
+   <script>
+
+function runIt(){
+        document.getElementById('function_called').innerHTML = 'In runIt';
+var A=[ [1,2,3,4,5],[-1,-2,-3,-4,-5],[0, 0, 0, 0, 0] ];
+var B=[ [1,2],[1,2],[1,2],[1,2],[1,2] ];
+        document.getElementById('matrix_A_place').innerHTML = A;
+        document.getElementById('matrix_B_place').innerHTML = B;
+ncA = A[1].length;
+        document.getElementById('matrix_num_col_A').innerHTML = ncA;
+nrA = A.length;
+	document.getElementById('matrix_num_rows_A').innerHTML = nrA;
+ncB = B[1].length
+nrB = B.length;
+
+
+        
+                }
+
+
+	
+
+   </script>
+
+</head>
+
+<body>
+
+
+</body
+
+</html>
