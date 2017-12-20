@@ -1,0 +1,92 @@
+<html>
+
+<head>
+<p> This is the Header.</p>
+
+<p> In Function:</p>
+<p id='function_called'>In Function Name</p>
+<p id='generic_print_place1'>Generic Print Place 1</p>
+<p id='generic_print_place2'>Generic Print Place 2</p>
+
+<button type = 'button' onclick='runIt()'> Go </button>
+
+<p> This is the Body.</p>
+<p> Matrix A goes here:</p>
+<p id='matrix_A_place'> Matrix A </p>
+<p> Number of Columns of A:</p>
+<p id='matrix_num_col_A'>Number of Columns of A goes here</p>
+<p> Number of rows of A:</p>
+<p id='matrix_num_rows_A'>Number of Rows of A goes here</p>
+<p> </p>
+<p> Matrix B goes here:</p>
+<p id='matrix_B_place'> Matrix B </p>
+<p> </p>
+<p id = 'matrix_Result_place'>Matrix Result</p>
+
+
+
+   <script>
+function multiplyMatrices(A1,B1){
+// var A1;
+// var B1;
+ncA1 = A1[1].length;
+nrA1 = A1.length;
+ncB1 = B1[1].length;
+nrB1 = B1.length;
+
+	document.getElementById('function_called').innerHTML = 'in multiplyMatrices';
+	if (ncA1 !== nrB1){
+
+		document.getElementById('matrix_Result_place').innerHTML = 'input matrices incompatible';
+	
+			}
+
+	for (var kr = 1; kr <=nrA1; kr++){
+	   for (var kc = 1; kc <= ncB1; kc++){
+		Result1[kr-1][kc-1] = 0;
+		for (var kk = 1; kk <= ncA1){
+
+                      Result1[kr-1][kc-1] = Result1[kr-1][kc-1] + A1[kr-1][kk-1]*B1[kk-1][kc-1];
+					    }
+					     }
+                                         }
+
+                              }
+
+function runIt(){
+        document.getElementById('function_called').innerHTML = 'In runIt';
+var A=[ [1,2,3,4,5],[-1,-2,-3,-4,-5],[0, 0, 0, 0, 0] ];
+var B=[ [1,2],[1,2],[1,2],[1,2],[1,2] ];
+        document.getElementById('matrix_A_place').innerHTML = A;
+        document.getElementById('matrix_B_place').innerHTML = B;
+ncA = A[1].length;
+        document.getElementById('matrix_num_col_A').innerHTML = ncA;
+nrA = A.length;
+	document.getElementById('matrix_num_rows_A').innerHTML = nrA;
+ncB = B[1].length
+nrB = B.length;
+
+                
+
+
+Result = multiplyMatrices(A,B);
+
+         document.getElementById('matrix_Result_place').innerHTML = Result;
+
+        return Result1;
+                  }
+        
+
+
+	
+
+   </script>
+
+</head>
+
+<body>
+
+
+</body
+
+</html>
