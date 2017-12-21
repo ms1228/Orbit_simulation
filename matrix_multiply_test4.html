@@ -51,8 +51,8 @@ ncB = B[1].length
 nrB = B.length;
 	document.getElementById('matrix_num_rows_B').innerHTML = nrB;
 var Result = new Array(ncB);
-for (var irow=0; irow<ncB; irow++){
-	Result[irow] = new Array(nrA);
+for (var irow=0; irow<nrA; irow++){
+	Result[irow] = new Array(ncB);
 		                 }
 ncResult = Result[1].length;
 	document.getElementById('matrix_num_col_Result').innerHTML = ncResult;
@@ -66,7 +66,7 @@ nrResult = Result.length;
 	
 			}
 
-	for (var kr = 1; kr <=nrA; kr++){
+	for (var kr = 1; kr <= nrA; kr++){
 	   for (var kc = 1; kc <= ncB; kc++){
 		Result[kr-1][kc-1] = 0;
 		for (var kk = 1; kk <= ncA; kk++){
