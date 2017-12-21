@@ -1,0 +1,98 @@
+<html>
+
+<head>
+<p> This is the Header.</p>
+
+<p> In Function:</p>
+<p id='function_called'>In Function Name</p>
+<p id='generic_print_place1'>Generic Print Place 1</p>
+<p id='generic_print_place2'>Generic Print Place 2</p>
+
+<button type = 'button' onclick='runIt()'> Go </button>
+
+<p> This is the Body.</p>
+<p> Matrix A goes here:</p>
+<p id='matrix_A_place'> Matrix A </p>
+<p> Number of Columns of A:</p>
+<p id='matrix_num_col_A'>Number of Columns of A goes here</p>
+<p> Number of rows of A:</p>
+<p id='matrix_num_rows_A'>Number of Rows of A goes here</p>
+<p> </p>
+<p> Matrix B goes here:</p>
+<p id='matrix_B_place'> Matrix B </p>
+<p> </p>
+<p> Number of Columns of B:</p>
+<p id='matrix_num_col_B'> Number of Columns of B goes here</p>
+<p> Number of Rows of B:</p>
+<p id='matrix_num_rows_B'> Number of Rows of B goes here</p>
+<p> </p>
+<p> Number of Columns of Result:</p>
+<p id='matrix_num_col_Result'>Number of Columns of Result goes here</p>
+<p> Number of Rows of Result:</p>
+<p id = 'matrix_num_rows_Result'>Number of Rows of Result goes here</p>
+<p id = 'matrix_Result_place'>Matrix Result</p>
+
+
+
+   <script>
+
+function runIt(){
+        document.getElementById('function_called').innerHTML = 'In runIt';
+var A=[ [1,2,3,4,5],[-1,-2,-3,-4,-5],[0, 0, 0, 0, 0] ];
+var B=[ [1,2],[1,2],[1,2],[1,2],[1,2] ];
+        document.getElementById('matrix_A_place').innerHTML = A;
+        document.getElementById('matrix_B_place').innerHTML = B;
+ncA = A[1].length;
+        document.getElementById('matrix_num_col_A').innerHTML = ncA;
+nrA = A.length;
+	document.getElementById('matrix_num_rows_A').innerHTML = nrA;
+ncB = B[1].length
+	document.getElementById('matrix_num_col_B').innerHTML = ncB;
+nrB = B.length;
+	document.getElementById('matrix_num_rows_B').innerHTML = nrB;
+var Result = new Array(ncB);
+for (var irow=0; irow<ncB; irow++){
+	Result[irow] = new Array(nrA);
+		                 }
+ncResult = Result[1].length;
+	document.getElementById('matrix_num_col_Result').innerHTML = ncResult;
+nrResult = Result.length;
+	document.getElementById('matrix_num_rows_Result').innerHTML = nrResult;
+
+
+	if (ncA !== nrB){
+
+		document.getElementById('matrix_Result_place').innerHTML = 'input matrices incompatible';
+	
+			}
+
+	for (var kr = 1; kr <=nrA; kr++){
+	   for (var kc = 1; kc <= ncB; kc++){
+		Result[kr-1][kc-1] = 0;
+		for (var kk = 1; kk <= ncA; kk++){
+
+                      Result[kr-1][kc-1] = Result[kr-1][kc-1] + A[kr-1][kk-1]*B[kk-1][kc-1];
+					    }
+					     }
+                                         }
+
+
+
+         document.getElementById('matrix_Result_place').innerHTML = Result;
+
+                  }
+        
+
+
+	
+
+   </script>
+
+</head>
+
+<body>
+
+
+</body
+
+</html>
