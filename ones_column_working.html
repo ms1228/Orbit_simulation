@@ -1,0 +1,131 @@
+<html>
+
+<head>
+<p> This is the Header.</p>
+
+</head>
+
+<body>
+<p> The Body Starts Here.</p>
+<p> In Function:</p>
+<p id='function_called'>In Function Name</p>
+<p id='generic_print_place1'>Generic Print Place 1</p>
+<p id='generic_print_place2'>Generic Print Place 2</p>
+
+<p> Matrix A goes here:</p>
+<p id='matrix_A_place'> Matrix A </p>
+<p> Number of Columns of A:</p>
+<p id='matrix_num_col_A'>Number of Columns of A goes here</p>
+<p> Number of rows of A:</p>
+<p id='matrix_num_rows_A'>Number of Rows of A goes here</p>
+<p> </p>
+<p> Matrix B goes here:</p>
+<p id='matrix_B_place'> Matrix B </p>
+<p> </p>
+<p> Number of Columns of B:</p>
+<p id='matrix_num_col_B'> Number of Columns of B goes here</p>
+<p> Number of Rows of B:</p>
+<p id='matrix_num_rows_B'> Number of Rows of B goes here</p>
+<p> </p>
+<p> Number of Columns of Result:</p>
+<p id='matrix_num_col_Result'>Number of Columns of Result goes here</p>
+<p> Number of Rows of Result:</p>
+<p id = 'matrix_num_rows_Result'>Number of Rows of Result goes here</p>
+<p> Result goes here:</p>
+<p id = 'matrix_Result_place'>Matrix Result</p>
+
+<script>
+
+ function multiplyMatrices(a,b){
+ 	document.getElementById('function_called').innerHTML = 'in multiplyMatrices';
+  
+var nca = a[1].length;
+var nra = a.length;
+var ncb = b[1].length;
+var nrb = b.length;
+ 
+ var result = new Array(ncb);
+ 
+ for (var irow=0; irow<nra; irow++){
+         result[irow] = new Array(ncb);
+                                  }
+var ncresult = result[1].length;
+var nrresult = result.length;
+ 
+ 	if (nca != nrb){
+ 
+ 		document.getElementById('matrix_Result_place').innerHTML = 'input matrices incompatible';
+ 	
+ 			}
+ 
+ 	for (var kr = 1; kr <=nra; kr++){
+ 	   for (var kc = 1; kc <= ncb; kc++){
+ 		result[kr-1][kc-1] = 0;
+ 		for (var kk = 1; kk <= nca; kk++){
+ 
+                     result[kr-1][kc-1] = result[kr-1][kc-1] + a[kr-1][kk-1]*b[kk-1][kc-1];
+  					    }
+  					     }
+  
+                                           }
+
+  return result;
+                           }
+
+document.getElementById('function_called').innerHTML = 'we made it to the script';
+
+var A=[ [1,2,3,4,5],[-1,-2,-3,-4,-5],[0, 0, 0, 0, 0] ];
+// var B=[ [1],[1],[1],[1],[1] ];
+
+// Make a column vector, B, of ones:
+//    Number of rows of B = number of columns of A:
+	var nrB = A[1].length;
+        var ncB = 1; 
+
+	var B = new Array(ncB);
+	var Brow = new Array(1);
+//        Brow = 1;
+        Brow=[ [1] ];
+	for (var kbr = 1; kbr <= nrB; kbr++){
+//		B[kbr-1][0] = Brow;
+//                B[kbr-1]=1;
+		B[kbr-1]=Brow;
+
+					     } 
+
+        document.getElementById('matrix_A_place').innerHTML = A;
+        document.getElementById('matrix_B_place').innerHTML = B;
+ncA = A[1].length;
+        document.getElementById('matrix_num_col_A').innerHTML = ncA;
+nrA = A.length;
+	document.getElementById('matrix_num_rows_A').innerHTML = nrA;
+
+
+ncB = B[1].length;
+ 	document.getElementById('matrix_num_col_B').innerHTML = ncB;
+nrB = B.length;
+	document.getElementById('matrix_num_rows_B').innerHTML = nrB;
+
+
+  Result = multiplyMatrices(A,B);
+
+//	document.getElementById('matrix_Result_place').innerHTML = Result;
+
+       document.getElementById('matrix_num_rows_Result').innerHTML = Result.length;
+
+       document.getElementById('matrix_num_col_Result').innerHTML = Result[1].length;
+
+//;	document.getElementById('matrix_Result_place').innerHTML = Number(Result.value);
+
+	document.getElementById('matrix_Result_place').innerHTML = Result;
+        
+
+
+	
+
+</script>
+
+
+</body>
+
+</html>
